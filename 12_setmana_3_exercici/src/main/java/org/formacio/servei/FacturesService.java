@@ -1,20 +1,21 @@
 package org.formacio.servei;
 
 import org.formacio.domain.Factura;
+import org.formacio.domain.LiniaFactura;
 import org.formacio.repositori.FacturesRepositori;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@Transactional
 public class FacturesService {
 
-    /* ---- Properties of the class ---- */
+    /* ---- "Properties" of the class ---- */
+    @Autowired
     private FacturesRepositori facturesRepositori = null;
-
-
-    /* ---- Getters ---- */
-    public FacturesRepositori getFacturesRepositori() {
-        return facturesRepositori;
-    }
 
     /*
      * Aquest metode ha de carregar la factura amb id idFactura i afegir una nova linia amb les dades
@@ -25,7 +26,14 @@ public class FacturesService {
      * Per implementar aquest metode necessitareu una referencia (dependencia) a FacturesRepositori
      */
     public Factura afegirProducte(long idFactura, String producte, int totalProducte) {
-
-        return null;
+        Optional<Factura> facturaOptional = facturesRepositori.findById(idFactura);
+        if (facturaOptional.isPresent()) {
+            LiniaFactura liniaFactura = new LiniaFactura();
+            liniaFactura.setProducte(producte);
+            liniaFactura.setTotal(totalProducte);
+            facturaOptional.get().getLinies().add(liniaFactura);
+            facturesRepositori.save(facturaOptional.get());
+        }
+        return facturaOptional.get();
     }
 }
