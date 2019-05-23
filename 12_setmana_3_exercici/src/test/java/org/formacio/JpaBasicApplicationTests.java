@@ -44,10 +44,10 @@ public class JpaBasicApplicationTests {
     private EntityManager em;
 
     @Autowired(required = false)
-    private FacturesRepositori repositori;
+    private FacturesRepositori facturesRepositori;
 
     @Autowired(required = false)
-    private FacturesService servei;
+    private FacturesService facturesService;
 
     @Autowired
     private FidalitzacioService fidalitzacioService;
@@ -66,12 +66,12 @@ public class JpaBasicApplicationTests {
 
 
     /**
-     * Modifica la classe FacturesRepositori per a que sigui un repositori Spring Data per l'entitat Factura
+     * Modifica la classe FacturesRepositori per a que sigui un facturesRepositori Spring Data per l'entitat Factura
      */
     @Test
     public void test_es_repositori() {
-        Assert.assertNotNull(repositori);
-        Assert.assertTrue(repositori instanceof Repository);
+        Assert.assertNotNull(facturesRepositori);
+        Assert.assertTrue(facturesRepositori instanceof Repository);
     }
 
     /**
@@ -84,16 +84,16 @@ public class JpaBasicApplicationTests {
      */
     @Test
     public void test_total_client() {
-        Assert.assertEquals(306L, repositori.totalClient("joan"));
+        Assert.assertEquals(306L, facturesRepositori.totalClient("joan"));
     }
 
 
     /**
-     * Si no ho has fet, fes qeu FacturesRepositori sigui un repositori amb els metodes CRUD automatics
+     * Si no ho has fet, fes qeu FacturesRepositori sigui un facturesRepositori amb els metodes CRUD automatics
      */
     @Test
     public void test_repositori_es_crud() {
-        Assert.assertTrue(repositori instanceof CrudRepository);
+        Assert.assertTrue(facturesRepositori instanceof CrudRepository);
     }
 
 
@@ -106,8 +106,8 @@ public class JpaBasicApplicationTests {
      */
     @Test
     public void test_query_generada() {
-        // canvia el null per una cridada a repositori.<metode_creat>("joan");
-        List<Factura> facturesJoan = null;
+        // canvia el null per una cridada a facturesRepositori.<metode_creat>("joan");
+        List<Factura> facturesJoan = facturesRepositori.findByTotalClient_Nom("joan");
 
         Assert.assertNotNull(facturesJoan);
         Assert.assertEquals(2, facturesJoan.size());
@@ -119,7 +119,7 @@ public class JpaBasicApplicationTests {
      */
     @Test
     public void test_factura_component() {
-        Assert.assertNotNull(servei);
+        Assert.assertNotNull(facturesService);
     }
 
 
@@ -144,12 +144,12 @@ public class JpaBasicApplicationTests {
     @Test
     @Commit
     public void test_nova_factura() {
-        Factura nova = servei.afegirProducte(2L, "Galletes", 1);
+        Factura nova = facturesService.afegirProducte(2L, "Galletes", 1);
 
         Assert.assertNotNull(nova.getId());
         Assert.assertEquals(2L, nova.getId().longValue());
 
-        Assert.assertEquals(307L, repositori.totalClient("joan"));
+        Assert.assertEquals(307L, facturesRepositori.totalClient("joan"));
     }
 
     /**
@@ -165,11 +165,11 @@ public class JpaBasicApplicationTests {
     public void test_notifica_regal() {
         Assert.assertTrue(fidalitzacioService.getEmailsPremiats().isEmpty());
 
-        servei.afegirProducte(2L, "primer", 1);
+        facturesService.afegirProducte(2L, "primer", 1);
 
         Assert.assertTrue(fidalitzacioService.getEmailsPremiats().isEmpty());
 
-        servei.afegirProducte(2L, "segon", 1);
+        facturesService.afegirProducte(2L, "segon", 1);
         Assert.assertFalse(fidalitzacioService.getEmailsPremiats().isEmpty());
 
         Assert.assertTrue(fidalitzacioService.getEmailsPremiats().contains("joan@email.com"));
