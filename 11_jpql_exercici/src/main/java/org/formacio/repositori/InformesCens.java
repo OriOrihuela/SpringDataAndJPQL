@@ -2,6 +2,7 @@ package org.formacio.repositori;
 
 import java.util.List;
 
+import org.formacio.domain.Illa;
 import org.formacio.domain.Persona;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,12 @@ public class InformesCens {
      * Retorna el nombre d'habitants de la illa
      */
     public int nombreHabitantsIlla(String illa) {
-        return 0;
+        TypedQuery<Persona> query = getEntityManager().createQuery("select persona from Persona persona " +
+                "where persona.municipi.illa.nom = :illa", Persona.class);
+        query.setParameter("illa", illa);
+        List<Persona> personaList = query.getResultList();
+        int nombreHabitants = personaList.size();
+        return nombreHabitants;
     }
 
     /**
