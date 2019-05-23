@@ -1,41 +1,53 @@
 package org.formacio.domain;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 
-
+@Entity
+@Table(name = "t_factures")
 public class Factura {
 
-	private Long id;
-	
-	private Client client;
-	
-	private Set<LiniaFactura> linies = new HashSet<>();
+    /* ---- Properties of the class ---- */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fac_id")
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "fac_client")
+    private Client client;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToMany
+    @JoinColumn(name = "lin_factura")
+    private Set<LiniaFactura> linies = new HashSet<>();
 
-	public Client getClient() {
-		return client;
-	}
 
-	public void setClient(Client client) {
-		this.client = client;
-	}
+    /* ---- Getters ---- */
+    public Long getId() {
+        return id;
+    }
 
-	public Set<LiniaFactura> getLinies() {
-		return linies;
-	}
+    public Client getClient() {
+        return client;
+    }
 
-	public void setLinies(Set<LiniaFactura> linies) {
-		this.linies = linies;
-	}
-	
-	
+    public Set<LiniaFactura> getLinies() {
+        return linies;
+    }
+
+
+    /* ---- Setters ---- */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void setLinies(Set<LiniaFactura> linies) {
+        this.linies = linies;
+    }
 }
