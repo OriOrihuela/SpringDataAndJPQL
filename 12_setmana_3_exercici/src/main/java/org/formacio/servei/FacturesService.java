@@ -17,6 +17,9 @@ public class FacturesService {
     @Autowired
     private FacturesRepositori facturesRepositori = null;
 
+    @Autowired
+    private FidalitzacioService fidalitzacioService = null;
+
     /*
      * Aquest metode ha de carregar la factura amb id idFactura i afegir una nova linia amb les dades
      * passades (producte i totalProducte)
@@ -26,14 +29,24 @@ public class FacturesService {
      * Per implementar aquest metode necessitareu una referencia (dependencia) a FacturesRepositori
      */
     public Factura afegirProducte(long idFactura, String producte, int totalProducte) {
+
         Optional<Factura> facturaOptional = facturesRepositori.findById(idFactura);
+
         if (facturaOptional.isPresent()) {
             LiniaFactura liniaFactura = new LiniaFactura();
             liniaFactura.setProducte(producte);
             liniaFactura.setTotal(totalProducte);
             facturaOptional.get().getLinies().add(liniaFactura);
             facturesRepositori.save(facturaOptional.get());
+
+            if (facturaOptional.get().getLinies().size() >= 4) {
+                notificarPremiAlClient(facturaOptional.get());
+            }
         }
         return facturaOptional.get();
+    }
+
+    private void notificarPremiAlClient (Factura factura) {
+        fidalitzacioService.notificaRegal(factura.getClient().getEmail());
     }
 }

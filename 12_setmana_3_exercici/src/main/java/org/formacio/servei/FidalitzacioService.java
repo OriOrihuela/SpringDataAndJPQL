@@ -11,15 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class FidalitzacioService {
 
-	private List<String> emailsPremiats = new ArrayList<>();
-	
-	public void notificaRegal(String email) {
-		emailsPremiats.add(email);
-	}
+    /* ---- Properties of the class ---- */
+    private List<String> emailsPremiats = new ArrayList<>();
 
-	public List<String> getEmailsPremiats() {
-		return emailsPremiats;
-	}
-	
-	
+
+    /* ---- Getters ---- */
+    public List<String> getEmailsPremiats() {
+        return emailsPremiats;
+    }
+
+
+    /* ---- Behaviours ---- */
+    public void notificaRegal(String email) {
+        emailsPremiats.add(email);
+    }
 }
