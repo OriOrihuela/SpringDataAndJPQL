@@ -17,7 +17,7 @@ public class Factura {
 
     @ManyToOne
     @JoinColumn(name = "fac_client")
-    private Client client;
+    private Client totalClient;
 
     @OneToMany
     @JoinColumn(name = "lin_factura")
@@ -30,7 +30,7 @@ public class Factura {
     }
 
     public Client getClient() {
-        return client;
+        return totalClient;
     }
 
     public Set<LiniaFactura> getLinies() {
@@ -44,7 +44,7 @@ public class Factura {
     }
 
     public void setClient(Client client) {
-        this.client = client;
+        this.totalClient = client;
     }
 
     public void setLinies(Set<LiniaFactura> linies) {
