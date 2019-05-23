@@ -10,45 +10,67 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="T_PERSONES")
+@Table(name = "T_PERSONES")
 public class Persona {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="PER_ID")
-	private Long id;
-	
-	@Column(name="PER_NOM")
-	private String nom;
-	
-	@Column(name="PER_EDAT")
-	private int edat;
-	
-	@ManyToOne
-	@JoinColumn(name="PER_MUNID")
-	private Municipi municipi;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getNom() {
-		return nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-	public Municipi getMunicipi() {
-		return municipi;
-	}
-	public void setMunicipi(Municipi municipi) {
-		this.municipi = municipi;
-	}
-	@Override
-	public String toString() {
-		return "Persona [id=" + id + ", nom=" + nom + ", municipi=" + (municipi != null) + "]";
-	}
+    /* ---- Properties of the class ---- */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PER_ID")
+    private Long id;
 
-	
+    @Column(name = "PER_NOM")
+    private String nom;
+
+    @Column(name = "PER_EDAT")
+    private int edat;
+
+    @ManyToOne
+    @JoinColumn(name = "PER_MUNID")
+    private Municipi municipi;
+
+
+    /* ---- Getters ---- */
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public int getEdat() {
+        return edat;
+    }
+
+    public Municipi getMunicipi() {
+        return municipi;
+    }
+
+
+    /* ---- Setters ---- */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setEdat(int edat) {
+        this.edat = edat;
+    }
+
+    public void setMunicipi(Municipi municipi) {
+        this.municipi = municipi;
+    }
+
+
+    /* ---- Behaviours ---- */
+    @Override
+    public String toString() {
+        return "Persona [id=" + id + ", nom=" + nom + ", municipi=" + (municipi != null) + "]";
+    }
+
+
 }

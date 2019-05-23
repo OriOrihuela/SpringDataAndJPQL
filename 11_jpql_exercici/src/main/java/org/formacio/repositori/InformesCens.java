@@ -75,7 +75,11 @@ public class InformesCens {
      * siii, ja ho se ..., no hem vist com ordenar, pero emprau order by i la vostra intuicio ;-)
      */
     public List<String> llistaNomsPersonesOrdenatPerEdat(String illa) {
-        return null;
+        TypedQuery<String> query = getEntityManager().createQuery("select persona.nom from Persona persona " +
+                "where persona.municipi.illa.nom = :illa order by persona.edat", String.class);
+        query.setParameter("illa", illa);
+        List<String> personaList = query.getResultList();
+        return personaList;
     }
 
 }
