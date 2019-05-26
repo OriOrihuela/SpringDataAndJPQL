@@ -33,17 +33,20 @@ public class FacturesService {
         Optional<Factura> facturaOptional = facturesRepositori.findById(idFactura);
 
         if (facturaOptional.isPresent()) {
+            Factura factura = facturaOptional.get();
             LiniaFactura liniaFactura = new LiniaFactura();
             liniaFactura.setProducte(producte);
             liniaFactura.setTotal(totalProducte);
-            facturaOptional.get().getLinies().add(liniaFactura);
-            facturesRepositori.save(facturaOptional.get());
+            factura.getLinies().add(liniaFactura);
+            facturesRepositori.save(factura);
 
-            if (facturaOptional.get().getLinies().size() >= 4) {
+            if (factura.getLinies().size() >= 4) {
                 notificarPremiAlClient(facturaOptional.get());
             }
+            return factura;
         }
-        return facturaOptional.get();
+        System.out.println("This product cannot be added");
+        return null;
     }
 
     private void notificarPremiAlClient (Factura factura) {
