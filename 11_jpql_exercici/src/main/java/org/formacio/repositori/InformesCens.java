@@ -27,7 +27,7 @@ public class InformesCens {
     /**
      * Retorna la llista de persones que viuen al municipi indicat
      */
-    public List<Persona> habitantsMunicipi(@Param("municipi") String municipi) {
+    public List<Persona> habitantsMunicipi(String municipi) {
         TypedQuery<Persona> query = getEntityManager().createQuery("select persona from Persona persona where " +
                 "persona.municipi.nom = :id", Persona.class);
         query.setParameter("id", municipi);
